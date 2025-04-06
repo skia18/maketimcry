@@ -7,12 +7,9 @@ function App() {
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEvilData(event.target.value)
   }
-  let timer: ReturnType<typeof setTimeout>
 
   useEffect(() => {
-    clearTimeout(timer)
-
-    timer = setTimeout(async () => {
+    const timer: ReturnType<typeof setTimeout> = setTimeout(async () => {
       const ai = new GoogleGenAI({
         apiKey: 'AIzaSyCNMnH8zZHnyJfBrBr2ESMhlj9Zwcy7Vg4'
       })
@@ -21,29 +18,34 @@ function App() {
         contents: `Determine the mood of the following sentence and classify it as one of the given moods i.e happy,sad,angry,horny. If the sentence is lacking context just go for the nearest possible mood. The sentence is ${evildata} `
       })
       setEvilAnswer(response?.text ? response.text : 'No response')
-    }, 1000) // wait for a second after the user finished input before sending it to gemini
+      console.log('updated')
+    }, 1000) // wait for a second after user input to trigger the api call
+    return () => clearTimeout(timer) //  clear the previous timer on input change
   }, [evildata])
 
   return (
-    <div className="h-screen w-screen bg-primary">
-      <div className="flex h-screen w-screen flex-col justify-center align-middle">
+    <div className=" min-h-screen w-screen  overflow-auto bg-[url(/layered-bg.png)] bg-cover">
+      <div className="flex h-screen flex-col justify-center align-middle">
         <div className="flex justify-center">
-          <img src="/happy-face.jpg" className="h-full w-6/12" />
+          {evilanswer.includes('angry') ? (
+            <img src="/sad.jpg" className="h-full w-6/12" />
+          ) : (
+            <img src="/happy-face.jpg" className="h-full w-6/12" />
+          )}
         </div>
-        <div className="flex justify-center text-4xl text-white">
+        <div className="flex justify-center text-4xl text-txt-main">
           Make Timothy Cry with your Evil Words 🐼
         </div>
-
         <div className="flex justify-center ">
           <textarea
             name="evilword"
             value={evildata}
             onInput={handleChange}
-            className="w-3/5 rounded-xl bg-gray-300 px-4 py-2 outline-none"
+            className="w-3/5 rounded-xl bg-tertiary px-4 py-2 font-serif text-txt-subtle outline-none"
             placeholder="Enter your words"
           ></textarea>
         </div>
-        <div className="text-center font-serif text-xl text-white">
+        <div className=" text-center font-serif text-xl text-txt-main">
           {evilanswer}
         </div>
       </div>
