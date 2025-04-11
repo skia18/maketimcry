@@ -7,11 +7,12 @@ function App() {
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEvilData(event.target.value)
   }
+  const apiKey: string | undefined = process.env.REACT_APP_GEMINI_API_KEY
 
   useEffect(() => {
     const timer: ReturnType<typeof setTimeout> = setTimeout(async () => {
       const ai = new GoogleGenAI({
-        apiKey: 'AIzaSyCNMnH8zZHnyJfBrBr2ESMhlj9Zwcy7Vg4'
+        apiKey
       })
       const response = await ai.models.generateContent({
         model: 'gemini-2.0-flash',
@@ -19,6 +20,7 @@ function App() {
       })
       setEvilAnswer(response?.text ? response.text : 'No response')
       console.log('updated')
+      console.log(typeof response?.text)
     }, 1000) // wait for a second after user input to trigger the api call
     return () => clearTimeout(timer) //  clear the previous timer on input change
   }, [evildata])
