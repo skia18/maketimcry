@@ -7,7 +7,8 @@ function App() {
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEvilData(event.target.value)
   }
-  const apiKey: string | undefined = process.env.REACT_APP_GEMINI_API_KEY
+  const apiKey: string | undefined = import.meta.env.VITE_API_GEMINI_API_KEY
+  console.log(apiKey)
 
   useEffect(() => {
     const timer: ReturnType<typeof setTimeout> = setTimeout(async () => {
