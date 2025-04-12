@@ -1,15 +1,14 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect } from 'react'
+import { Moodvariants } from 'types/moods'
 
 const moodImages = {
-  neutral: '/images/neutral.png',
-  happy: '/images/happy.png',
-  sad: '/images/sad.png',
-  angry: '/images/angry.png',
-  crying: '/images/crying.png'
+  neutral: 'public/neutral-face.jpg',
+  happy: 'public/happy-face.png',
+  sad: 'public/sad-face.png',
+  angry: 'public/angry-face.png',
+  crying: 'public/crying-face.png'
 }
-
-type Moodvariants = 'neutral' | 'happy' | 'sad' | 'angry' | 'crying'
 
 export default function MoodFace({ mood }: { mood: Moodvariants }) {
   const [currentMood, setCurrentMood] = useState(mood)
